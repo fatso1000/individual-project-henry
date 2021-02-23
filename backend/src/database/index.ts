@@ -3,21 +3,17 @@ import { VideogameModel, GenreModel } from "./models/videogame";
 import { DB } from "../config";
 const { DB_HOST, DB_PWD, DB_USER } = DB;
 
-export var sequelize = new Sequelize(
-  "videogames",
-  DB_USER || "postgres",
-  DB_PWD || "poderOS123",
-  {
-    host: DB_HOST || "localhost",
-    dialect: "postgres",
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000,
-    },
-    logging: false,
-  }
-);
+// FOR TESTING, JUST ADD MANUALLY THE DB CONFIG LIKE DB_USER, ETC... .ENV DOESN'T WORK WITH THE TESTING.
+export var sequelize = new Sequelize("videogames", DB_USER, DB_PWD, {
+  host: DB_HOST,
+  dialect: "postgres",
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000,
+  },
+  logging: false,
+});
 
 // DATABASE CONNECTION
 sequelize
