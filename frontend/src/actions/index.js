@@ -14,11 +14,12 @@ export function searchVideogame(payload) {
   if (payload.id) {
     url += `${payload.id}`;
   }
+  
   return function (dispatch) {
     return axios
       .get(url, {
         params: {
-          name: payload.name ? payload.name : payload,
+          name: payload.name || payload.name === "" ? payload.name : payload,
           page: payload.page ? payload.page : "",
           local: payload.local ? payload.local : false,
         },
@@ -48,6 +49,7 @@ export function addVideogame(payload) {
     /*genres,*/ platforms,
   } = payload;
 
+  console.log(name, description, releaseDate, rating, platforms)
   return function (dispatch) {
     return axios
       .post(url, { name, description, releaseDate, rating, platforms })

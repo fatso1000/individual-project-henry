@@ -14,6 +14,7 @@ export interface uploadVideogame extends VideoGameRepo {
 
 export default class VideoGameRepo {
   public static async getAll(name: any, page?: any, local: boolean = false) {
+    // LOCAL TRUE
     if (local === true) {
       if (!name || name === "") {
         const videogamesList = await VideogameModel.findAll({ limit: 15 });
@@ -34,6 +35,7 @@ export default class VideoGameRepo {
           };
           tmp.push(tmp2);
         }
+
         return {
           results: tmp,
         };
@@ -64,6 +66,8 @@ export default class VideoGameRepo {
           id: include_name[i].getDataValue("id"),
           name: include_name[i].getDataValue("name"),
           rating: include_name[i].getDataValue("rating"),
+          description: include_name[i].getDataValue("description"),
+          releaseDate: include_name[i].getDataValue("releaseDate"),
         };
         tmp.push(tmp2);
       }
@@ -73,6 +77,7 @@ export default class VideoGameRepo {
         results: tmp,
       };
     }
+    // LOCAL FALSE
     if (!name || name === "") {
       const videogamesList = await axios.get(
         `https://api.rawg.io/api/games?key=${API_KEY}`
@@ -163,12 +168,26 @@ export default class VideoGameRepo {
     };
   }
 
-  public static async getById(id: number) {
-    // const videogame = await VideogameModel.findOne({
-    //   where: {
-    //     id,
-    //   },
-    // });
+  public static async getById(id: number, local: boolean = false) {
+    if (local) {
+      try {
+        const videogame = await VideogameModel.findOne({
+          where: {
+            id,
+          },
+        });
+        return {
+          id: videogame?.getDataValue("id"),
+          name: videogame?.getDataValue("name"),
+          description: videogame?.getDataValue("description"),
+          rating: videogame?.getDataValue("rating"),
+          releaseDate: videogame?.getDataValue("releaseDate"),
+          platforms: videogame?.getDataValue("platforms"),
+        };
+      } catch (err) {
+        throw "VideogameId doesn't exists!!";
+      }
+    }
     try {
       const videogame = await axios.get(
         `https://api.rawg.io/api/games/${id}?key=${API_KEY}`

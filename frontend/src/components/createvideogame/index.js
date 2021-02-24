@@ -249,145 +249,157 @@ export class Home extends Component {
       genres,
       platforms,
     } = this.state;
-    return (
-      <div id="page__leader">
-        <div className="container">
-          <div className="page__head">
-            {this.state.isSubmitted && (
-              <div className="page__head-message">
-                <h1>Game uploaded succesfully!</h1>
-              </div>
-            )}
-          </div>
-          <div className="page__content">
-            <form className="page__form" onSubmit={(e) => this.handleSubmit(e)}>
-              <div className="page__form-div">
-                <h3 className="input__header">Name</h3>
-                <input
-                  type="text"
-                  id="name"
-                  className="page__form-input__vg"
-                  autoComplete="off"
-                  value={name}
-                  placeholder="Name"
-                  required
-                  onChange={(e) => this.handleChange(e)}
-                />
-              </div>
-              <div className="page__form-div">
-                <h3 className="input__header">Description</h3>
-                <input
-                  type="text"
-                  id="description"
-                  autoComplete="off"
-                  className="page__form-input__vg"
-                  placeholder="Description"
-                  value={description}
-                  required
-                  onChange={(e) => this.handleChange(e)}
-                />
-              </div>
-              <div className="page__form-div">
-                <h3 className="input__header">Release Date</h3>
-                <DatePicker
-                  className="page__form-input__vg"
-                  selected={releaseDate}
-                  onChange={(date) => this.setState({ releaseDate: date })}
-                />
-              </div>
-              <div className="page__form-div">
-                <h3 className="input__header">Rating</h3>
-                <input
-                  type="number"
-                  id="rating"
-                  autoComplete="off"
-                  placeholder="Rating"
-                  className="page__form-input__vg"
-                  value={rating}
-                  onChange={(e) => this.handleChange(e)}
-                />
-              </div>
-              {/* -*-*-*-*-*-*-*-*-*- GENRES -*-*-*-*-*-*-*-*-*- */}
-              <div className="page__form-div">
-                <h3 className="input__header">Genres</h3>
-                <select
-                  name="genres"
-                  id="genres"
-                  className="page__form-input__vg page__form-select"
-                  multiple={true}
-                  value={genres}
-                  onChange={(e) => this.addGenres(e)}
-                >
-                  {this.state.isLoaded &&
-                    !this.state.petition.error &&
-                    this.genresList()}
-                </select>
-                <div className="page__form-check">
+    try {
+      return (
+        <div id="page__leader">
+          <div className="container">
+            <div className="page__head">
+              {this.state.isSubmitted && (
+                <div className="page__head-message">
+                  <h1>Game uploaded succesfully!</h1>
+                </div>
+              )}
+            </div>
+            <div className="page__content">
+              <form
+                className="page__form"
+                onSubmit={(e) => this.handleSubmit(e)}
+              >
+                <div className="page__form-div">
+                  <h3 className="input__header">Name</h3>
                   <input
-                    type="checkbox"
-                    value={this.state.customGenre.enabled}
-                    className="page__form-check-input"
-                    onClick={(e) =>
-                      this.setState({
-                        customGenre: {
-                          ...this.state.customGenre,
-                          enabled: !this.state.customGenre.enabled,
-                        },
-                      })
-                    }
-                  ></input>
-                  <p className="page__form-check-p">Add new genre</p>
+                    type="text"
+                    id="name"
+                    className="page__form-input__vg"
+                    autoComplete="off"
+                    value={name}
+                    placeholder="Name"
+                    required
+                    onChange={(e) => this.handleChange(e)}
+                  />
                 </div>
-                <div className="page__form-check">
-                  {this.state.customGenre.enabled && this.addNewGenre()}
-                </div>
-              </div>
-              {/* -*-*-*-*-*-*-*-*-*- PLATFORMS -*-*-*-*-*-*-*-*-*- */}
-              <div className="page__form-div">
-                <h3 className="input__header">Platforms</h3>
-                <select
-                  name="platforms"
-                  id="platforms"
-                  required
-                  className="page__form-select page__form-input__vg"
-                  multiple={true}
-                  value={platforms}
-                  onChange={(e) => this.addPlatform(e)}
-                  size="5"
-                >
-                  {this.platformsList()}
-                </select>
-                <div className="page__form-check">
+                <div className="page__form-div">
+                  <h3 className="input__header">Description</h3>
                   <input
-                    type="checkbox"
-                    value={this.state.customPlatform.enabled}
-                    className="page__form-check-input"
-                    onClick={(e) =>
-                      this.setState({
-                        customPlatform: {
-                          ...this.state.customPlatform,
-                          enabled: !this.state.customPlatform.enabled,
-                        },
-                      })
-                    }
-                  ></input>
-                  <p className="page__form-check-p">Add new Platform</p>
+                    type="text"
+                    id="description"
+                    autoComplete="off"
+                    className="page__form-input__vg"
+                    placeholder="Description"
+                    value={description}
+                    required
+                    onChange={(e) => this.handleChange(e)}
+                  />
                 </div>
-                <div className="page__form-check">
-                  {this.state.customPlatform.enabled && this.addNewPlatform()}
+                <div className="page__form-div">
+                  <h3 className="input__header">Release Date</h3>
+                  <DatePicker
+                    className="page__form-input__vg"
+                    selected={releaseDate}
+                    onChange={(date) => this.setState({ releaseDate: date })}
+                  />
                 </div>
-              </div>
+                <div className="page__form-div">
+                  <h3 className="input__header">Rating</h3>
+                  <input
+                    type="number"
+                    id="rating"
+                    autoComplete="off"
+                    placeholder="Rating"
+                    className="page__form-input__vg"
+                    value={rating}
+                    onChange={(e) => this.handleChange(e)}
+                  />
+                </div>
+                {/* -*-*-*-*-*-*-*-*-*- GENRES -*-*-*-*-*-*-*-*-*- */}
+                <div className="page__form-div">
+                  <h3 className="input__header">Genres</h3>
+                  <select
+                    name="genres"
+                    id="genres"
+                    className="page__form-input__vg page__form-select"
+                    multiple={true}
+                    value={genres}
+                    onChange={(e) => this.addGenres(e)}
+                  >
+                    {this.state.isLoaded &&
+                      !this.state.petition.error &&
+                      this.genresList()}
+                  </select>
+                  <div className="page__form-check">
+                    <input
+                      type="checkbox"
+                      value={this.state.customGenre.enabled}
+                      className="page__form-check-input"
+                      onClick={(e) =>
+                        this.setState({
+                          customGenre: {
+                            ...this.state.customGenre,
+                            enabled: !this.state.customGenre.enabled,
+                          },
+                        })
+                      }
+                    ></input>
+                    <p className="page__form-check-p">Add new genre</p>
+                  </div>
+                  <div className="page__form-check">
+                    {this.state.customGenre.enabled && this.addNewGenre()}
+                  </div>
+                </div>
+                {/* -*-*-*-*-*-*-*-*-*- PLATFORMS -*-*-*-*-*-*-*-*-*- */}
+                <div className="page__form-div">
+                  <h3 className="input__header">Platforms</h3>
+                  <select
+                    name="platforms"
+                    id="platforms"
+                    required
+                    className="page__form-select page__form-input__vg"
+                    multiple={true}
+                    value={platforms}
+                    onChange={(e) => this.addPlatform(e)}
+                    size="5"
+                  >
+                    {this.platformsList()}
+                  </select>
+                  <div className="page__form-check">
+                    <input
+                      type="checkbox"
+                      value={this.state.customPlatform.enabled}
+                      className="page__form-check-input"
+                      onClick={(e) =>
+                        this.setState({
+                          customPlatform: {
+                            ...this.state.customPlatform,
+                            enabled: !this.state.customPlatform.enabled,
+                          },
+                        })
+                      }
+                    ></input>
+                    <p className="page__form-check-p">Add new Platform</p>
+                  </div>
+                  <div className="page__form-check">
+                    {this.state.customPlatform.enabled && this.addNewPlatform()}
+                  </div>
+                </div>
 
-              <div className="page__form-btn">
-                <button className="page__form-submit2" type="submit">
-                  UPLOAD
-                </button>
-              </div>
-            </form>
+                <div className="page__form-btn">
+                  <button className="page__form-submit2" type="submit">
+                    UPLOAD
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } catch (err) {
+      return (
+        <div>
+          <h1>Error loading Genres.</h1>
+          <p>Please reload the page</p>
+        </div>
+      );
+    }
   }
 }
 

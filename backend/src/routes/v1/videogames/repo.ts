@@ -47,6 +47,7 @@ export default class Repo {
       local = req.query.local;
       local = local === "true" ? true : false;
     }
+
     VideogamesRepo.getAll(name, page, local)
       .then((response) => {
         res
@@ -58,8 +59,13 @@ export default class Repo {
 
   public static getById(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
+    var local;
+    if (req.query.hasOwnProperty("local")) {
+      local = req.query.local;
+      local = local === "true" ? true : false;
+    }
     const newId = parseInt(id);
-    VideogamesRepo.getById(newId)
+    VideogamesRepo.getById(newId, local)
       .then((response) => {
         res.status(200).json({ msg: "Detail of videogame by ID!!", response });
       })

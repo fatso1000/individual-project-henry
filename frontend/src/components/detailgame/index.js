@@ -4,11 +4,20 @@ import { searchVideogame } from "../../actions";
 import { Loader } from "../loader";
 import "./detail.css";
 
-const Maps = (props) => (
-  <>
-    <li>{props.game.name}</li>
-  </>
-);
+const Maps = (props) => {
+  if (props.local) {
+    return (
+      <>
+        <li>{props.game}</li>
+      </>
+    );
+  }
+  return (
+    <>
+      <li>{props.game.name}</li>
+    </>
+  );
+};
 
 export class DetailGame extends Component {
   constructor(props) {
@@ -18,7 +27,9 @@ export class DetailGame extends Component {
         loading: false,
         error: null,
       },
+      released: undefined,
       isLoaded: false,
+      local: false,
     };
   }
 
@@ -33,9 +44,23 @@ export class DetailGame extends Component {
 
   componentDidMount() {
     const { name } = this.props.match.params;
+    const search = this.props.location.search;
+    var local = new URLSearchParams(search).get("local");
+    var boolLocal = local === "true" ? true : false;
+    this.setState({ local: boolLocal });
+
     this.setState({
       petition: { loading: true, error: null },
     });
+    if (local) {
+      this.props.getVideogame({ id: name, local }).then(() => {
+        this.setState({
+          petition: { loading: false, error: null },
+          isLoaded: true,
+        });
+      });
+      return;
+    }
     this.props.getVideogame({ id: name }).then(() => {
       this.setState({
         petition: { loading: false, error: null },
@@ -51,6 +76,15 @@ export class DetailGame extends Component {
       });
     } else {
       return this.props.detail.platforms.map((platform) => {
+        if (this.state.local) {
+          return (
+            <Maps
+              game={platform}
+              local={true}
+              key={Math.floor(Math.random() * 100 + 1)}
+            />
+          );
+        }
         return <Maps game={platform.platform} key={platform.platform.id} />;
       });
     }
@@ -97,7 +131,7 @@ export class DetailGame extends Component {
                   <div className="page__details-list">
                     <h3 className="page__details-header">Genres List:</h3>
                     <ul className="page__details-list-ul">
-                      {this.list("genres")}
+                      {this.state.local === false && this.list("genres")}
                     </ul>
                   </div>
                   <div className="page__details-list">
@@ -120,18 +154,23 @@ function mapStateToProps(state) {
     genres,
     background_image,
     description_raw,
+    description,
     released,
+    releaseDate,
     rating,
     name,
     platforms,
   } = state.videogames;
+  var stringToDate = new Date(released).toLocaleDateString("en-se");
+
+  console.log(stringToDate);
   return {
     detail: {
       id,
       genres,
-      image: background_image,
-      description: description_raw,
-      releaseDate: released,
+      image: background_image || "https://picsum.photos/id/237/1280/720",
+      description: description_raw || description,
+      releaseDate: released || releaseDate,
       rating,
       name,
       platforms,
