@@ -26,11 +26,9 @@ export class DetailGame extends Component {
     const page__leader = document.getElementById("page__leader");
     page__leader.style = `background-size:100%;
     background: rgb(0,0,0);
-    
-background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7455357142857143) 100%), url("${this.props.detail.image}") no-repeat center center fixed;
-
-     height: 100%;
-     `;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.7455357142857143) 100%), url("${this.props.detail.image}") no-repeat center center fixed;
+    height: 100%;
+    `;
   }
 
   componentDidMount() {
@@ -43,7 +41,6 @@ background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.745535714285714
         petition: { loading: false, error: null },
         isLoaded: true,
       });
-      console.log("GAME LOADED");
     });
   }
 
@@ -99,7 +96,9 @@ background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.745535714285714
                 <div className="page__details-content">
                   <div className="page__details-list">
                     <h3 className="page__details-header">Genres List:</h3>
-                    <ul className="page__details-list-ul">{this.list("genres")}</ul>
+                    <ul className="page__details-list-ul">
+                      {this.list("genres")}
+                    </ul>
                   </div>
                   <div className="page__details-list">
                     <h3 className="page__details-header">Platforms List:</h3>

@@ -36,18 +36,19 @@ export default class Repo {
   }
 
   public static getAllGames(req: Request, res: Response, next: NextFunction) {
-    var name, page;
+    var local, name, page;
     if (req.query.hasOwnProperty("name")) {
       name = req.query.name;
     }
     if (req.query.hasOwnProperty("page")) {
       page = req.query.page;
     }
-    VideogamesRepo.getAll(name, page)
+    if (req.query.hasOwnProperty("local")) {
+      local = req.query.local;
+      local = local === "true" ? true : false;
+    }
+    VideogamesRepo.getAll(name, page, local)
       .then((response) => {
-        // if (response.length === 0) {
-        //   return res.status(200).json({ msg: "Videogame could not be found!!", response });
-        // }
         res
           .status(200)
           .json({ msg: "List of the first 15 video games!!", response });

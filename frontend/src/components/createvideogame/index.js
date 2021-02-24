@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
+import "react-datepicker/dist/react-datepicker.css";
 import "./videogame.css";
 import { getGenres, addVideogame } from "../../actions";
 
@@ -11,10 +13,18 @@ export class Home extends Component {
     this.state = {
       name: "",
       description: "",
-      releaseDate: "",
+      releaseDate: new Date(),
       rating: "",
       genres: [],
+      customGenre: {
+        enabled: false,
+        value: "",
+      },
       platforms: [],
+      customPlatform: {
+        enabled: false,
+        value: "",
+      },
       petition: {
         loading: false,
         error: null,
@@ -22,6 +32,57 @@ export class Home extends Component {
       isLoaded: false,
       isSubmitted: false,
     };
+  }
+
+  handleNewChange(e) {
+    this.setState({
+      [e.target.id]: {
+        ...this.state[e.target.id],
+        value: e.target.value,
+      },
+    });
+  }
+
+  submitNewChange(e) {
+    if (e.target.name === "genreAdd") {
+      var newArray = this.state.genres;
+      var tmp = true;
+      for (var i = 0; i < newArray.length; i++) {
+        if (newArray[i] === this.state.customGenre.value) {
+          newArray.splice(i, 1);
+          tmp = false;
+        }
+      }
+      if (tmp === true) {
+        this.setState({
+          genres: [...this.state.genres, this.state.customGenre.value],
+        });
+        return;
+      } else {
+        this.setState({
+          genres: newArray,
+        });
+      }
+    } else if (e.target.name === "platformAdd") {
+      newArray = this.state.platforms;
+      tmp = true;
+      for (i = 0; i < newArray.length; i++) {
+        if (newArray[i] === this.state.customPlatform.value) {
+          newArray.splice(i, 1);
+          tmp = false;
+        }
+      }
+      if (tmp === true) {
+        this.setState({
+          platforms: [...this.state.platforms, this.state.customPlatform.value],
+        });
+        return;
+      } else {
+        this.setState({
+          platforms: newArray,
+        });
+      }
+    }
   }
 
   componentDidMount() {
@@ -44,7 +105,6 @@ export class Home extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("SUBMIT");
     this.props
       .uploadVideogame({
         name: this.state.name,
@@ -133,6 +193,53 @@ export class Home extends Component {
     }
   }
 
+  addNewPlatform() {
+    if (this.state.customPlatform.enabled) {
+      return (
+        <div id="addNewPlatform">
+          <input
+            placeholder="New Platform"
+            type="text"
+            id="customPlatform"
+            className="page__form-input__vg"
+            value={this.state.customPlatform.value}
+            onChange={(e) => this.handleNewChange(e)}
+          ></input>
+          <button
+            type="button"
+            name="platformAdd"
+            onClick={(e) => this.submitNewChange(e)}
+          >
+            ADD
+          </button>
+        </div>
+      );
+    }
+  }
+  addNewGenre() {
+    if (this.state.customGenre.enabled) {
+      return (
+        <div id="addNewGenre">
+          <input
+            placeholder="New Genre"
+            type="text"
+            id="customGenre"
+            className="page__form-input__vg"
+            value={this.state.customGenre.value}
+            onChange={(e) => this.handleNewChange(e)}
+          ></input>
+          <button
+            type="button"
+            name="genreAdd"
+            onClick={(e) => this.submitNewChange(e)}
+          >
+            ADD
+          </button>
+        </div>
+      );
+    }
+  }
+  // -*-*-*-*-*-*-*-*-*-*-*-* RENDER FUNCTION -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
   render() {
     const {
       name,
@@ -163,6 +270,7 @@ export class Home extends Component {
                   autoComplete="off"
                   value={name}
                   placeholder="Name"
+                  required
                   onChange={(e) => this.handleChange(e)}
                 />
               </div>
@@ -175,19 +283,16 @@ export class Home extends Component {
                   className="page__form-input__vg"
                   placeholder="Description"
                   value={description}
+                  required
                   onChange={(e) => this.handleChange(e)}
                 />
               </div>
               <div className="page__form-div">
                 <h3 className="input__header">Release Date</h3>
-                <input
-                  type="text"
+                <DatePicker
                   className="page__form-input__vg"
-                  id="releaseDate"
-                  placeholder="Release Date"
-                  autoComplete="off"
-                  value={releaseDate}
-                  onChange={(e) => this.handleChange(e)}
+                  selected={releaseDate}
+                  onChange={(date) => this.setState({ releaseDate: date })}
                 />
               </div>
               <div className="page__form-div">
@@ -202,6 +307,7 @@ export class Home extends Component {
                   onChange={(e) => this.handleChange(e)}
                 />
               </div>
+              {/* -*-*-*-*-*-*-*-*-*- GENRES -*-*-*-*-*-*-*-*-*- */}
               <div className="page__form-div">
                 <h3 className="input__header">Genres</h3>
                 <select
@@ -216,12 +322,33 @@ export class Home extends Component {
                     !this.state.petition.error &&
                     this.genresList()}
                 </select>
+                <div className="page__form-check">
+                  <input
+                    type="checkbox"
+                    value={this.state.customGenre.enabled}
+                    className="page__form-check-input"
+                    onClick={(e) =>
+                      this.setState({
+                        customGenre: {
+                          ...this.state.customGenre,
+                          enabled: !this.state.customGenre.enabled,
+                        },
+                      })
+                    }
+                  ></input>
+                  <p className="page__form-check-p">Add new genre</p>
+                </div>
+                <div className="page__form-check">
+                  {this.state.customGenre.enabled && this.addNewGenre()}
+                </div>
               </div>
+              {/* -*-*-*-*-*-*-*-*-*- PLATFORMS -*-*-*-*-*-*-*-*-*- */}
               <div className="page__form-div">
                 <h3 className="input__header">Platforms</h3>
                 <select
                   name="platforms"
                   id="platforms"
+                  required
                   className="page__form-select page__form-input__vg"
                   multiple={true}
                   value={platforms}
@@ -230,9 +357,31 @@ export class Home extends Component {
                 >
                   {this.platformsList()}
                 </select>
+                <div className="page__form-check">
+                  <input
+                    type="checkbox"
+                    value={this.state.customPlatform.enabled}
+                    className="page__form-check-input"
+                    onClick={(e) =>
+                      this.setState({
+                        customPlatform: {
+                          ...this.state.customPlatform,
+                          enabled: !this.state.customPlatform.enabled,
+                        },
+                      })
+                    }
+                  ></input>
+                  <p className="page__form-check-p">Add new Platform</p>
+                </div>
+                <div className="page__form-check">
+                  {this.state.customPlatform.enabled && this.addNewPlatform()}
+                </div>
               </div>
-              <div className="page__form-div">
-                <button className="page__form-submit" type="submit">UPLOAD</button>
+
+              <div className="page__form-btn">
+                <button className="page__form-submit2" type="submit">
+                  UPLOAD
+                </button>
               </div>
             </form>
           </div>

@@ -13,9 +13,67 @@ export interface uploadVideogame extends VideoGameRepo {
 }
 
 export default class VideoGameRepo {
-  public static async getAll(name: any, page?: any) {
+  public static async getAll(name: any, page?: any, local: boolean = false) {
+    if (local === true) {
+      if (!name || name === "") {
+        const videogamesList = await VideogameModel.findAll({ limit: 15 });
+        var tmp: any = [],
+          tmp2 = undefined,
+          longitud = 15;
+
+        if (videogamesList.length < 15) longitud = videogamesList.length;
+
+        for (let i = 0; i < longitud; i++) {
+          tmp2 = {
+            tmpid: i,
+            id: videogamesList[i].getDataValue("id"),
+            name: videogamesList[i].getDataValue("name"),
+            // image: videogamesList.results[i].background_image,
+            // genres: videogamesList.results[i].genres,
+            rating: videogamesList[i].getDataValue("rating"),
+          };
+          tmp.push(tmp2);
+        }
+        return {
+          results: tmp,
+        };
+      }
+      const include_name = await VideogameModel.findAll({
+        attributes: ["id", "name", "rating"],
+        where: {
+          name: {
+            [Op.iLike]: `%${name}%`,
+          },
+        },
+      });
+      if (include_name.length <= 0)
+        return {
+          next: 2,
+          previous: null,
+          results: tmp,
+        };
+
+      var tmp: any = [],
+        tmp2 = undefined,
+        longitud = 15;
+      if (include_name.length < 15) longitud = include_name.length;
+
+      for (let i = 0; i < longitud; i++) {
+        tmp2 = {
+          tmpid: i,
+          id: include_name[i].getDataValue("id"),
+          name: include_name[i].getDataValue("name"),
+          rating: include_name[i].getDataValue("rating"),
+        };
+        tmp.push(tmp2);
+      }
+      return {
+        next: 2,
+        previous: null,
+        results: tmp,
+      };
+    }
     if (!name || name === "") {
-      // const videogamesList = await VideogameModel.findAll({ limit: 15 });
       const videogamesList = await axios.get(
         `https://api.rawg.io/api/games?key=${API_KEY}`
       );
@@ -123,15 +181,16 @@ export default class VideoGameRepo {
 
   public static async addVideoGame(params: uploadVideogame) {
     const { description, name, platforms, rating, releaseDate } = params;
+    const newDate = new Date(releaseDate);
+
     const videogame = await VideogameModel.create({
       name,
       platforms,
       rating,
-      releaseDate,
+      releaseDate: newDate,
       description,
     });
     await videogame.save();
-    console.log("VideoGame to submit: ", videogame.toJSON());
   }
 
   public static async getGenres() {

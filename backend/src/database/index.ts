@@ -27,13 +27,15 @@ sequelize
   });
 
 // DATA FOR TESTING
+// Delete all the data and tables from the DB at start the program
+sequelize.sync({ force: true });
 // sequelize.sync({ force: true }).then(() => {
 //   const Cod5 = VideogameModel.create({
 //     name: "Cod5",
 //     description: "Lorem ipsum",
 //     platforms: ["Netflix", "Youtube"],
 //     rating: 21.2,
-//     releaseDate: "25/32/1222",
+//     releaseDate: "25/32/2001",
 //   });
 //   const Gow2 = VideogameModel.create({
 //     name: "GoW2",

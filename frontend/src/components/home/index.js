@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { searchVideogame } from "../../actions";
+import { getGenres, searchVideogame } from "../../actions";
 import { Loader } from "../loader";
 import { randEmoji } from "../../idk/random-emoji";
 import "./home.css";
 
 const GamesMap = (props) => {
-  var stringGenres = "";
-
-  props.videogame.genres.forEach((element) => {
-    stringGenres += element.name + " ";
-  });
-
   function onMouseLeave() {
     var target = document.querySelector(`#genre_${props.videogame.id}`);
     target.classList.add("hidden");
@@ -21,6 +15,43 @@ const GamesMap = (props) => {
   function onMouseEnter() {
     var target = document.querySelector(`#genre_${props.videogame.id}`);
     target.classList.remove("hidden");
+  }
+
+  if (props.videogame.hasOwnProperty("genres")) {
+    var stringGenres = "";
+
+    props.videogame.genres.forEach((element) => {
+      stringGenres += element.name + " ";
+    });
+
+    return (
+      <NavLink
+        to={`/videogame/${props.videogame.id}`}
+        className="page__list__cards-card"
+        onMouseEnter={() => onMouseEnter()}
+        onMouseLeave={() => onMouseLeave()}
+      >
+        <div className="page__list__card-img">
+          <img
+            className="card__image"
+            src={props.videogame.image}
+            alt={`${props.videogame.name} background`}
+          />
+        </div>
+        <div className="page__list__card-title">
+          <div className="card__title card__link">
+            {props.videogame.name + randEmoji()}
+          </div>
+          <div
+            id={`genre_${props.videogame.id}`}
+            className="page__list__card-genres hidden"
+          >
+            <div className="genres__title">Genres:</div>
+            <div className="genres__string">{stringGenres}</div>
+          </div>
+        </div>
+      </NavLink>
+    );
   }
 
   return (
@@ -33,7 +64,7 @@ const GamesMap = (props) => {
       <div className="page__list__card-img">
         <img
           className="card__image"
-          src={props.videogame.image}
+          src={"https://picsum.photos/id/237/1280/720"}
           alt={`${props.videogame.name} background`}
         />
       </div>
@@ -53,6 +84,8 @@ const GamesMap = (props) => {
   );
 };
 
+// *-*-*-*-*-*-*-*-*-*-*-*- HOME CLASS *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- //
+
 export class Home extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +97,13 @@ export class Home extends Component {
         loading: false,
         msg: null,
       },
+      genre: "",
+      local: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.getGenres();
   }
 
   handleChange(event) {
@@ -80,6 +119,22 @@ export class Home extends Component {
       },
       isSubmitted: false,
     });
+
+    if (this.state.local) {
+      this.props
+        .getVideogame({ name: this.state.title, local: this.state.local })
+        .then(() => {
+          this.setState({
+            petition: {
+              loading: false,
+              error: null,
+            },
+            isSubmitted: true,
+          });
+        })
+        .catch((err) => console.error("GAME NOT FOUND!!!", err.message));
+      return;
+    }
 
     this.props
       .getVideogame(this.state.title)
@@ -256,6 +311,36 @@ export class Home extends Component {
     }
   }
 
+  genresList() {
+    return this.props.genres.response.map((element, i) => {
+      return (
+        <option key={i} value={element.name}>
+          {element.name}
+        </option>
+      );
+    });
+  }
+
+  mapByGenre(e) {
+    if (this.props.videogames.results.length < 14) {
+      this.props.getVideogame(this.state.title);
+    }
+    var tmp1 = this.props.videogames.results,
+      tmp3 = [];
+
+    this.setState({ genre: e.target.value });
+    tmp1.forEach((element) => {
+      if (element.genres.some((item) => item.name === e.target.value)) {
+        tmp3.push(element);
+      }
+    });
+    this.props.videogames.results = tmp3;
+
+    return tmp1.map((game) => {
+      return <GamesMap videogame={game} key={game.tmpid} />;
+    });
+  }
+
   render() {
     const { title } = this.state;
     return (
@@ -288,6 +373,19 @@ export class Home extends Component {
               <button className="page__form-submit" type="submit">
                 search
               </button>
+              <div className="page__search__config">
+                <div className="page__search__config-content">
+                  <input
+                    type="checkbox"
+                    value={this.state.local}
+                    onClick={() => this.setState({ local: !this.state.local })}
+                  ></input>
+                  <p className="page__search__config-margin">
+                    Search in local DB?
+                  </p>
+                </div>
+                <div></div>
+              </div>
             </form>
           </div>
           <div className="page__list__games">
@@ -296,6 +394,7 @@ export class Home extends Component {
                 <Loader />
               </div>
             )}
+            {/* -*-*-*-*-*-*-* DIVBAR -*-*-*-*-*-*-* */}
             {this.state.isSubmitted && (
               <>
                 <div className="page__divbar">
@@ -322,21 +421,43 @@ export class Home extends Component {
                       </p>
                     </div>
                   </div>
-                </div>
-                <div className="page__list__cards">
-                  {/* {this.props.searchMsg} */}
-                  {this.videogamesMap()}
-                </div>
-                <div>
-                  <div>
-                    <p id="previous" onClick={(e) => this.pagination(e)}>
-                      Previous
-                    </p>
+                  <div className="page__divbar-content head">
+                    <h1>Genres</h1>
+                    <div className="page__divbar-content">
+                      <select
+                        name="genres"
+                        id="genres"
+                        className="page__form-input__vg page__form-select"
+                        value={this.state.genre}
+                        onChange={(e) => this.mapByGenre(e)}
+                      >
+                        {this.state.isSubmitted && this.genresList()}
+                      </select>
+                    </div>
                   </div>
-                  <div>
-                    <p id="next" onClick={(e) => this.pagination(e)}>
-                      Next
-                    </p>
+                </div>
+                <div className="page__list__cards">{this.videogamesMap()}</div>
+                <div className="page__divbar">
+                  <div className="page__divbar head">
+                    <h1>Page</h1>
+                    <div className="page__divbar2-content">
+                      <p
+                        className="divbar__btn"
+                        id="previous"
+                        onClick={(e) => this.pagination(e)}
+                      >
+                        Previous
+                      </p>
+                    </div>
+                    <div className="page__divbar2-content">
+                      <p
+                        className="divbar__btn"
+                        id="next"
+                        onClick={(e) => this.pagination(e)}
+                      >
+                        Next
+                      </p>
+                    </div>
                   </div>
                 </div>
               </>
@@ -351,6 +472,7 @@ export class Home extends Component {
 function mapStateToProps(state) {
   return {
     videogames: state.videogames,
+    genres: state.genres,
     searchMsg: state.searchMsg,
   };
 }
@@ -358,6 +480,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getVideogame: (payload) => dispatch(searchVideogame(payload)),
+    getGenres: () => dispatch(getGenres()),
   };
 }
 

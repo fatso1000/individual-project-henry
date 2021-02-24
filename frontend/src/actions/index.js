@@ -20,6 +20,7 @@ export function searchVideogame(payload) {
         params: {
           name: payload.name ? payload.name : payload,
           page: payload.page ? payload.page : "",
+          local: payload.local ? payload.local : false,
         },
       })
       .then((json) => {

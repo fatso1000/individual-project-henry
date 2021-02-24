@@ -8,10 +8,11 @@ describe("Videogame Model", () => {
 
   describe("Validations", () => {
     it("error sin required fields", (done) => {
+      const newDate = new Date("25/12/2001")
       // @ts-ignore
       VideogameModel.create({
         name: "Hola",
-        releaseDate: "25/53/2",
+        releaseDate: newDate,
         rating: 24.3,
       })
         .then(() => done("No deberia haberse creado"))

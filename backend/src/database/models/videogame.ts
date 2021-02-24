@@ -5,7 +5,7 @@ export interface VideogameAttributes {
   id?: number;
   name: string;
   description: string;
-  releaseDate?: string;
+  releaseDate?: Date;
   rating?: number;
   platforms: string[];
 }
@@ -48,7 +48,7 @@ export const VideogameModel = sequelize.define<VideogameInterface>(
       allowNull: false,
     },
     releaseDate: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
     },
     rating: {
       type: DataTypes.DECIMAL,

@@ -24,6 +24,7 @@
   width: 100%;
   min-width: 200px;
   z-index: 2;
+  margin-bottom: 15px;
 }
 
 .page__search__form {
@@ -131,6 +132,24 @@
   font-family: "Ubuntu Mono", monospace;
 }
 
+/*  */
+.page__search__config {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.page__search__config-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.page__search__config-margin {
+  margin: 0 10px;
+}
+
 /* DIVBAR PAGE */
 .page__divbar {
   text-align: left;
@@ -142,6 +161,17 @@
   flex-direction: column;
   margin: 0;
   font-size: 26px;
+}
+.page__divbar2-content {
+  display: flex;
+  flex-direction: column;
+  margin: 0 13px 0 0;
+  font-size: 26px;
+}
+.page__divbar2-content p {
+  font-weight: 400;
+  font-size: 25px;
+  margin: 0 0 15px 0;
 }
 .head {
   margin: 0 0 0 15px;
@@ -170,6 +200,7 @@
   .page__divbar-content {
     width: 100px;
     flex-direction: row;
+    font-size: 20px;
   }
   .page__divbar-content p {
     margin: 1.9em 0;
@@ -179,6 +210,10 @@
     flex: 0 1 100%;
   }
   .page__list__games {
+    flex-direction: column;
+  }
+  /*  */
+  .container-home {
     flex-direction: column;
   }
   /* HELPER */
