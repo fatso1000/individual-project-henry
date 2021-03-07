@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build",
     "build": "tsc",
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/server.js",

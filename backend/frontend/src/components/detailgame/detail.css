@@ -1,0 +1,213 @@
+.container {
+  padding-top: 25px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: row;
+  height: 100%;
+  padding: 32px 150px 2px 150px;
+  text-align: center;
+}
+
+/* PAGE DETAILTS */
+.page__details-list-ul {
+  margin-top: 0;
+  padding: 0 0 15px 0;
+  list-style-type: none;
+}
+
+.page__detailts {
+  margin-top: 3em;
+  margin-left: 25px;
+}
+
+/* ABOUT */
+.page__about {
+  padding: 0 10px;
+}
+
+.page__about-header {
+  font-size: 35px;
+  color: rgb(127.7, 127.7, 127.7);
+  margin: 0;
+  text-align: left;
+}
+
+.page__about-text {
+  line-height: 20px;
+  font-size: 22px;
+  text-align: left;
+  max-width: fit-content;
+}
+
+/* SCREENSHOT */
+.page__screenshot {
+  width: 100%;
+  height: 250px;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  padding: 0 10px;
+  border-radius: 25px;
+}
+
+.page__screenshot-image {
+  width: 350px;
+  height: 100%;
+  box-shadow: 1px 0px 41px 4px rgba(0, 0, 0, 1);
+  -webkit-box-shadow: 1px 0px 41px 4px rgba(0, 0, 0, 1);
+  -moz-box-shadow: 1px 0px 41px 4px rgba(0, 0, 0, 1);
+}
+
+/* TITLE */
+.title {
+  font-size: 100px;
+  margin-top: 0;
+  overflow: break-word;
+}
+
+/* DETAILS */
+.page__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  position: relative;
+}
+
+.page__details-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page__details-header {
+  color: rgb(127.7, 127.7, 127.7);
+}
+
+.page__details-list {
+  height: 50px;
+}
+
+/* HEAD */
+.page__head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.page__head-meta {
+  font-size: 25px;
+  line-height: normal;
+  font-weight: 400;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  text-transform: uppercase;
+}
+
+.page__head-date {
+  font-size: 25px;
+  line-height: normal;
+  font-weight: 400;
+  padding: 2px 7.5px;
+  box-sizing: border-box;
+  color: #000;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+.page__head-rating {
+  display: flex;
+  align-items: center;
+}
+
+/* ----- MEDIAS QUERY ----- */
+
+/* IPHONE 6/7/8 */
+@media screen and (max-width: 375px) {
+  .container {
+    align-items: center;
+    flex-direction: column;
+    padding: 0 10px;
+  }
+.page__detailts {
+  margin: 0;
+}
+
+  .page__screenshot {
+    width: 100%;
+    height: 175px;
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    padding: 0 10px;
+    border-radius: 25px;
+  }
+  .page__screenshot-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* ---- TITLE ---- */
+  .title {
+    font-size: 45px;
+    margin-top: 0;
+    overflow: break-word;
+  }
+  /* ---- HEAD ---- */
+  .page__head {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .page__head-meta {
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 400;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    text-transform: uppercase;
+  }
+
+  .page__head-date {
+    font-size: 12px;
+    line-height: normal;
+    font-weight: 400;
+    padding: 2px 7.5px;
+    box-sizing: border-box;
+    color: #000;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  .page__head-rating {
+    display: flex;
+    align-items: center;
+  }
+
+  /* ABOUT */
+  .page__about {
+    padding: 0 10px;
+  }
+
+  .page__about-header {
+    font-size: 25px;
+    margin: 0;
+    text-align: left;
+  }
+
+  .page__about-text {
+    line-height: 20px;
+    font-size: 14px;
+    text-align: left;
+  }
+
+  .page__details-content {
+    justify-content: space-around;
+  }
+}

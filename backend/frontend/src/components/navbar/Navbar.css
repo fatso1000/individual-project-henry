@@ -1,0 +1,47 @@
+.page__header {
+  z-index: 10;
+  width: 100%;
+  flex-grow: 0;
+}
+
+.header {
+  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  display: flex;
+  justify-content: space-evenly;
+  height: 60px;
+  align-items: center;
+}
+
+.header__item {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  justify-content: space-between;
+}
+
+.header-logo {
+  padding-top: 1px;
+  border-bottom-color: transparent !important;
+}
+
+.header-logo:hover {
+  color: rgb(180, 180, 180);
+  transition: 0.23s;
+}
+
+.header__item-link {
+  font-size: 14px;
+  line-height: normal;
+  position: relative;
+  font-weight: 500;
+  color: white;
+  white-space: nowrap;
+}
+
+.logo {
+  position: relative;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 5px;
+}
