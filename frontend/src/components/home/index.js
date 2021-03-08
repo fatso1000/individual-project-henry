@@ -471,8 +471,8 @@ export class Home extends Component {
                           {this.state.isSubmitted && this.genresList()}
                         </select>
                       </div>
-                    </div>
-                  </div> */}
+                    </div> */}
+                  </div>
                   <div className="page__list__cards">
                     {this.videogamesMap()}
                   </div>
