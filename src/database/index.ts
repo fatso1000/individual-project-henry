@@ -6,6 +6,14 @@ const { DB_NAME, DB_PORT, DB_HOST, DB_PWD, DB_USER } = DB;
 // FOR TESTING, JUST ADD MANUALLY THE DB CONFIG LIKE DB_USER, ETC... .ENV DOESN'T WORK WITH THE TESTING.
 export var sequelize = new Sequelize(DB_NAME, DB_USER, DB_PWD, {
   dialect: "postgres",
+  ssl: true,
+  protocol: "postgres",
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    }
+  },
   host: DB_HOST,
   port: DB_PORT,
   pool: {
