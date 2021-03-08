@@ -432,7 +432,7 @@ export class Home extends Component {
                 </div>
               )}
               {/* -*-*-*-*-*-*-* DIVBAR -*-*-*-*-*-*-* */}
-              {this.state.isSubmitted && (
+              {this.state.isSubmitted && this.props.genres && (
                 <>
                   <div className="page__divbar">
                     <div className="page__divbar-content head">
@@ -468,7 +468,7 @@ export class Home extends Component {
                           value={this.state.genre}
                           onChange={(e) => this.mapByGenre(e)}
                         >
-                          {/* {this.state.isSubmitted && this.genresList()} */}
+                          {this.state.isSubmitted && this.genresList()}
                         </select>
                       </div>
                     </div>
@@ -510,7 +510,7 @@ export class Home extends Component {
         <div>
           <h1>Error loading Genres.</h1>
           <p>Please reload the page</p>
-          <p>{err}</p>
+          <p>{err.message}</p>
         </div>
       );
     }
