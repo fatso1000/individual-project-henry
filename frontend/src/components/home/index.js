@@ -468,7 +468,7 @@ export class Home extends Component {
                           value={this.state.genre}
                           onChange={(e) => this.mapByGenre(e)}
                         >
-                          {this.state.isSubmitted && this.genresList()}
+                          {/* {this.state.isSubmitted && this.genresList()} */}
                         </select>
                       </div>
                     </div>
