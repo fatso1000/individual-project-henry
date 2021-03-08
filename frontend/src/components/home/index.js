@@ -506,6 +506,7 @@ export class Home extends Component {
         </div>
       );
     } catch (err) {
+      console.log(err)
       return (
         <div>
           <h1>Error loading Genres.</h1>
