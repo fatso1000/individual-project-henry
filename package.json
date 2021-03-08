@@ -7,8 +7,10 @@
     "start": "node dist/server.js",
     "heroku-postbuild": "cd frontend && npm install && npm run build",
     "build": "tsc",
+    "postinstall": "tsc",
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/server.js",
+    "deploy": "git add . && git commit -m Deploy_Command && git push -u origin",
     "test": "mocha  dist/test/**.js",
     "grade": "mocha --reporter spec --timeout 300 dist/test/models/**.js"
   },
