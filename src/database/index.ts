@@ -1,13 +1,13 @@
 import { Sequelize } from "sequelize";
 import { VideogameModel, GenreModel } from "./models/videogame";
 import { DB } from "../config";
-const { DB_NAME,DB_URL, DB_HOST, DB_PWD, DB_USER } = DB;
+const { DB_NAME, DB_PORT, DB_HOST, DB_PWD, DB_USER } = DB;
 
 // FOR TESTING, JUST ADD MANUALLY THE DB CONFIG LIKE DB_USER, ETC... .ENV DOESN'T WORK WITH THE TESTING.
 export var sequelize = new Sequelize(DB_NAME, DB_USER, DB_PWD, {
   dialect: "postgres",
   host: DB_HOST,
-  
+  port: DB_PORT,
   pool: {
     max: 5,
     min: 0,

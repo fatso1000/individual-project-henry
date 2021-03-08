@@ -99,6 +99,7 @@ export class Home extends Component {
       },
       genre: "",
       local: false,
+      genresLoaded: false,
     };
   }
 
@@ -110,9 +111,12 @@ export class Home extends Component {
     this.setState({ title: event.target.value });
   }
 
-  async handleSubmit(event) {
+  handleSubmit(event) {
     event.preventDefault();
-    await this.chargeGenres();
+    this.chargeGenres().then(() => {
+      this.setState({ genresLoaded: true });
+      console.log("GENRES LOADED")
+    });
 
     this.setState({
       petition: {
@@ -213,7 +217,8 @@ export class Home extends Component {
   // EXTENSIVE CODE AHEAD FOR THIS FUNCTION !!NEEDS RECODE!!
   videogamesMap() {
     if (
-      this.props.videogames.hasOwnProperty("results") &&
+      (this.props.videogames.hasOwnProperty("results") ||
+        !this.props.videogames) &&
       !this.state.petition.loading
     ) {
       switch (this.state.ordering) {
@@ -377,7 +382,6 @@ export class Home extends Component {
     const { title } = this.state;
 
     try {
-      this.chargeGenres();
       return (
         <div id="page__leader">
           <div className="container-home">
@@ -432,7 +436,7 @@ export class Home extends Component {
                 </div>
               )}
               {/* -*-*-*-*-*-*-* DIVBAR -*-*-*-*-*-*-* */}
-              {this.state.isSubmitted && this.props.genres && (
+              {this.state.genresLoaded && (
                 <>
                   <div className="page__divbar">
                     <div className="page__divbar-content head">
@@ -458,7 +462,7 @@ export class Home extends Component {
                         </p>
                       </div>
                     </div>
-                    {/* <div className="page__divbar-content head">
+                    <div className="page__divbar-content head">
                       <h1>Genres</h1>
                       <div className="page__divbar-content">
                         <select
@@ -471,7 +475,7 @@ export class Home extends Component {
                           {this.state.isSubmitted && this.genresList()}
                         </select>
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                   <div className="page__list__cards">
                     {this.videogamesMap()}
@@ -506,7 +510,7 @@ export class Home extends Component {
         </div>
       );
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return (
         <div>
           <h1>Error loading Genres.</h1>

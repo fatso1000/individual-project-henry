@@ -3,6 +3,7 @@ const initialState = {
   videogames: [],
   searchMsg: "",
   videogameDetail: {},
+  genres: {},
 };
 
 export default function rootReducer(state = initialState, action) {
