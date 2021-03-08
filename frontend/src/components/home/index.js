@@ -344,13 +344,6 @@ export class Home extends Component {
   }
 
   genresList() {
-    if (!this.props.genres) {
-      return (
-        <option key="rdm" value="none">
-          Empty
-        </option>
-      );
-    }
     return this.props.genres.response.map((element, i) => {
       return (
         <option key={i} value={element.name}>
@@ -384,6 +377,7 @@ export class Home extends Component {
     const { title } = this.state;
 
     try {
+      this.chargeGenres();
       return (
         <div id="page__leader">
           <div className="container-home">
