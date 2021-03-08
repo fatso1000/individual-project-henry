@@ -15,9 +15,9 @@ const app = express();
 // Add the following code to your Server.js (server) file. 
 // This tells the server to look for a build of the react app.
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "frontend", "build")));
+  app.use(express.static(path.join(__dirname, "../frontend", "build")));
   app.get("*", (req, resp) => {
-    resp.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
+    resp.sendFile(path.join(__dirname, "../frontend", "build", "index.html"));
   });
 }
 
