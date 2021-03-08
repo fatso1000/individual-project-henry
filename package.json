@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server.js",
+    "start": "tsc && node dist/server.js",
     "heroku-postbuild": "cd frontend && npm install && npm run build",
     "build": "tsc",
     "postinstall": "tsc",
