@@ -344,6 +344,13 @@ export class Home extends Component {
   }
 
   genresList() {
+    if (!this.props.genres) {
+      return (
+        <option key="rdm" value="none">
+          Empty
+        </option>
+      );
+    }
     return this.props.genres.response.map((element, i) => {
       return (
         <option key={i} value={element.name}>
