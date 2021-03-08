@@ -458,7 +458,7 @@ export class Home extends Component {
                         </p>
                       </div>
                     </div>
-                    <div className="page__divbar-content head">
+                    {/* <div className="page__divbar-content head">
                       <h1>Genres</h1>
                       <div className="page__divbar-content">
                         <select
@@ -472,7 +472,7 @@ export class Home extends Component {
                         </select>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="page__list__cards">
                     {this.videogamesMap()}
                   </div>
