@@ -514,8 +514,8 @@ export class Home extends Component {
       return (
         <div>
           <h1>Error loading Genres.</h1>
-          <p>Please reload the page</p>
-          <p>{err.message}</p>
+          <p>Please press the 'RELOAD' buton</p>
+          <NavLink to="/home">RELOAD</NavLink>
         </div>
       );
     }
